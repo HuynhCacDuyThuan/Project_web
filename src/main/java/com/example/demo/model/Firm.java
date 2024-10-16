@@ -57,7 +57,7 @@ public class Firm {
 	@ManyToOne
 	@JoinColumn(name = "id_category")
 	private Category category;
-
+	private String description;
 	private String link_video_traller;
 	@OneToMany(mappedBy = "firm")
 	private List<Episode> episodes;

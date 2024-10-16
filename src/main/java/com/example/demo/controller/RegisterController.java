@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.dto.FirmDto;
 import com.example.demo.model.Episode;
 import com.example.demo.model.Firm;
 import com.example.demo.model.MovieVideo;
@@ -25,6 +26,7 @@ import com.example.demo.repository.UserRepository;
 import com.example.demo.service.CategoryService;
 import com.example.demo.service.CoinsService;
 import com.example.demo.service.EmailService;
+import com.example.demo.service.EpisodeService;
 import com.example.demo.service.FirmService;
 import com.example.demo.service.UserRoleService;
 import com.example.demo.service.UserService;
@@ -55,6 +57,8 @@ public class RegisterController {
 	private CategoryService categoryService;
 	@Autowired
 	private EpisodeRepository episodeRepository;
+	@Autowired
+	private EpisodeService episodeService;
 
 	@GetMapping("/register")
 	public String home(Model model) {
@@ -140,8 +144,8 @@ public class RegisterController {
 			// Thêm map vào model
 			model.addAttribute("firmMovieVideos", firmMovieVideos);
 		}
-
-		model.addAttribute("firms", firms);
+		List<FirmDto> firmDtos = episodeService.getFirm();
+		model.addAttribute("firms", firmDtos);
 		return "web/test";
 	}
 

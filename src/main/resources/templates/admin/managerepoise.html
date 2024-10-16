@@ -60,66 +60,6 @@ i.fa.fa-ticket {
 	left: 10px;
 	bottom: 10px;
 }
-/* The Modal (background) */
-.modal {
-	display: none; /* Hidden by default */
-	position: fixed; /* Stay in place */
-	z-index: 1; /* Sit on top */
-	left: 0;
-	top: 0;
-	width: 100%; /* Full width */
-	height: 100%; /* Full height */
-	overflow: auto; /* Enable scroll if needed */
-	background-color: rgb(0, 0, 0); /* Fallback color */
-	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-}
-
-/* Modal Content */
-.modal-content {
-	background-color: #fefefe;
-	margin: 15% auto; /* 15% from the top and centered */
-	padding: 20px;
-	border: 1px solid #888;
-	width: 80%; /* Could be more or less, depending on screen size */
-	max-width: 500px; /* Optional: Limits the maximum width */
-}
-
-/* The Close Button */
-.close {
-	color: #000; /* Màu trắng cho nút đóng */
-	float: right; /* Căn phải */
-	font-size: 32px; /* Kích thước chữ lớn hơn */
-	font-weight: bold; /* Đậm */
-	padding: 10px; /* Thêm khoảng cách */
-	transition: color 0.3s, transform 0.3s;
-	/* Hiệu ứng chuyển đổi khi hover */
-}
-
-.close:hover, .close:focus {
-	color: black;
-	text-decoration: none;
-	cursor: pointer;
-}
-
-.modal-footer {
-	display: flex;
-	justify-content: center; /* Căn giữa các nút */
-	gap: 10px; /* Khoảng cách giữa các nút */
-}
-/* Button Styles */
-button {
-	margin: 3px; /* Reduced margin */
-	padding: 8px 16px; /* Reduced padding */
-	border: none;
-	background-color: #4CAF50; /* Green */
-	color: white;
-	font-size: 14px; /* Smaller font size */
-	cursor: pointer;
-}
-
-button:hover {
-	background-color: #45a049;
-}
 </style>
 </head>
 
@@ -238,10 +178,7 @@ button:hover {
 							class="la la la-cogs"></i>
 							<p>Quản lí loại phim</p> <span class="badge badge-danger"></span>
 					</a></li>
-					<li class="nav-item"><a href="/manager-episode"> <i
-							class="la la la-cogs"></i>
-							<p>Quản lí tập phim</p> <span class="badge badge-danger"></span>
-					</a></li>
+				
 				</ul>
 			</div>
 		</div>
@@ -259,65 +196,11 @@ button:hover {
 									<div class="card-title">Quản lí tập phim</div>
 								</div>
 								<div class="card-body">
-									<div class="container-fluid centered-form">
-										<div class="col-md-12">
-											<form th:action="@{/addepisode}" method="POST"
-												enctype="multipart/form-data" th:object="${episode}">
-												<!-- Form fields -->
 
-												<div class="form-row">
-
-													<div class="form-group col-md-6">
-														<label for="firm">Chọn bộ phim</label> <select name="firm"
-															class="form-control" id="category" th:field="*{firm}">
-															<option value="" disabled selected>Chọn bộ phim
-																phim</option>
-															<option th:each="firm : ${firms}" th:value="${firm.id}"
-																th:text="${firm.name_firm}"></option>
-														</select>
-														<div class="text-danger"
-															th:if="${#fields.hasErrors('firm')}" th:errors="*{firm}"></div>
-													</div>
-												</div>
-												<div class="form-row">
-													<div class="form-group col-md-6">
-														<label for="name_episode">Tên tập</label> <input
-															type="text" name="name_episode" class="form-control"
-															id="name_episode" th:field="*{name_episode}">
-														<div class="text-danger"
-															th:if="${#fields.hasErrors('name_episode')}"
-															th:errors="*{name_episode}"></div>
-														<div id="name_episode-error" class="text-danger"></div>
-													</div>
-
-
-												</div>
-
-												<div class="form-row">
-
-													<div class="form-group col-md-6">
-														<label for="link_video_traller">Chọn video </label> <input
-															type="file" name="link_video" class="form-control-file"
-															id="link_video" accept="video/*">
-														<div class="text-danger"></div>
-													</div>
-												</div>
-
-
-
-												<!-- Error and success messages -->
-												<div th:if="${errorMessage}" class="alert alert-danger"
-													th:text="${errorMessage}"></div>
-												<div th:if="${session.successMessage}"
-													class="alert alert-success"
-													th:text="${session.successMessage}"></div>
-
-												<!-- Button Section -->
-												<div class="card-action d-flex justify-content-center">
-													<button type="submit" class="btn btn-success mr-2">Lưu
-														tập phim</button>
-												</div>
-											</form>
+									<div class="row mb-3">
+										<div class="col-lg-12 text-right">
+											<button class="btn btn-primary" onclick="openAddEventModal()">
+												Thêm</button>
 										</div>
 									</div>
 									<div class="table-responsive">
@@ -395,15 +278,104 @@ button:hover {
 				</div>
 			</div>
 		</div>
-		<div id="videoModal" class="modal">
-			<div class="modal-content">
-				<span class="close" onclick="closeModal()">&times;</span>
-				<video id="player" playsinline controls>
-					<source id="videoSource" type="video/mp4" />
-					Your browser does not support the video tag.
-				</video>
+		<div id="videoModal" class="modal fade" tabindex="-1" role="dialog"
+			aria-labelledby="addEventModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<video style="width: 475px;" id="player" playsinline controls>
+							<source id="videoSource" type="video/mp4" />
+							Your browser does not support the video tag.
+						</video>
+					</div>
+				</div>
 			</div>
 		</div>
+
+
+		<div class="modal fade" id="addEventModal" tabindex="-1" role="dialog"
+			aria-labelledby="addEventModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="addEventModalLabel">Thêm tập phim</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="container-fluid centered-form">
+							<div class="col-md-12">
+								<form th:action="@{/addepisode}" method="POST"
+									enctype="multipart/form-data" th:object="${episode}">
+									<!-- Form fields -->
+
+									<div class="form-row">
+
+										<div class="form-group col-md-6">
+											<label for="firm">Chọn bộ phim</label> <select name="firm"
+												class="form-control" id="category" th:field="*{firm}">
+												<option value="" disabled selected>Chọn bộ phim
+													phim</option>
+												<option th:each="firm : ${firms}" th:value="${firm.id}"
+													th:text="${firm.name_firm}"></option>
+											</select>
+											<div class="text-danger" th:if="${#fields.hasErrors('firm')}"
+												th:errors="*{firm}"></div>
+										</div>
+										<div class="form-group col-md-6">
+											<label for="name_episode">Tên tập</label> <input type="text"
+												name="name_episode" class="form-control" id="name_episode"
+												th:field="*{name_episode}">
+											<div class="text-danger"
+												th:if="${#fields.hasErrors('name_episode')}"
+												th:errors="*{name_episode}"></div>
+											<div id="name_episode-error" class="text-danger"></div>
+										</div>
+									</div>
+
+
+									<div class="form-row">
+
+										<div class="form-group col-md-6">
+											<label for="link_video_traller">Chọn video </label> <input
+												type="file" name="link_video" class="form-control-file"
+												id="link_video" accept="video/*">
+											<div class="text-danger"></div>
+										</div>
+									</div>
+
+
+
+									<!-- Error and success messages -->
+									<div th:if="${errorMessage}" class="alert alert-danger"
+										th:text="${errorMessage}"></div>
+									<div th:if="${session.successMessage}"
+										class="alert alert-success"
+										th:text="${session.successMessage}"></div>
+
+									<!-- Button Section -->
+									<div class="card-action d-flex justify-content-center">
+										<button type="submit" class="btn btn-success mr-2">Lưu
+											tập phim</button>
+									</div>
+								</form>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Đóng</button>
+						</div>
+					</div>
+				</div>
+			</div>
 </body>
 <script
 	th:src="@{https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js}"></script>
@@ -429,6 +401,7 @@ button:hover {
 
 
 <script>
+
 	$('#displayNotif')
 			.on(
 					'click',
@@ -463,6 +436,9 @@ button:hover {
 					});
 </script>
 <script type="text/javascript">
+function openAddEventModal() {
+	$('#addEventModal').modal('show');
+}
 	$(document)
 			.ready(
 					function() {
@@ -564,15 +540,13 @@ button:hover {
 		}
 
 		function closeModal() {
-			 const videoPlayer = document.getElementById('player');
-			    videoPlayer.pause(); // Dừng video
-			    videoPlayer.currentTime = 0; // Đặt lại thời gian về đầu
+		    const videoPlayer = document.getElementById('player');
+		    videoPlayer.pause(); // Dừng video
+		    videoPlayer.currentTime = 0; // Đặt lại thời gian về đầu
 
-			    // Ẩn modal
-			   
-			    document.getElementById('videoModal').style.display = 'none';
+		    // Ẩn modal bằng Bootstrap's modal API
+		    $('#videoModal').modal('hide');
 		}
-
 		document.getElementById('confirmBtn').onclick = function() {
 			window.location.href = confirmUrl; // Redirect to the confirmed URL
 		};
@@ -607,6 +581,7 @@ button:hover {
 			});
 		}, 5000); // 5 seconds
 		function showModal1(videoName) {
+		    // Sử dụng fetch để lấy video từ server
 		    fetch(`/loadVideo?videoName=${encodeURIComponent(videoName)}`)
 		        .then(response => {
 		            if (!response.ok) {
@@ -615,16 +590,25 @@ button:hover {
 		            return response.blob();
 		        })
 		        .then(blob => {
+		            // Tạo URL từ blob video
 		            const url = URL.createObjectURL(blob);
 		            const videoPlayer = document.getElementById('player');
+
+		            // Đặt URL cho video player
 		            videoPlayer.src = url;
+
+		            // Tải và phát video
+		            videoPlayer.load();
 		            videoPlayer.play();
-		            document.getElementById('videoModal').style.display = 'block'; // Mở modal
+
+		            // Mở modal bằng Bootstrap's modal API
+		            $('#videoModal').modal('show'); // Hiển thị modal
 		        })
 		        .catch(error => {
 		            console.error('Error fetching video:', error);
 		        });
 		}
+
 
 	</script>
 </html>

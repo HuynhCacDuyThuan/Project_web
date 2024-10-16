@@ -128,10 +128,7 @@
 							class="la la la-cogs"></i>
 							<p>Quản lí loại phim</p> <span class="badge badge-danger"></span>
 					</a></li>
-					<li class="nav-item"><a href="/manager-episode"> <i
-							class="la la la-cogs"></i>
-							<p>Quản lí tập phim</p> <span class="badge badge-danger"></span>
-					</a></li>
+
 				</ul>
 			</div>
 		</div>
@@ -139,6 +136,7 @@
 			<div class="content">
 				<div class="container-fluid">
 					<h4 class="page-title"></h4>
+
 					<div class="row">
 
 						<div class="col-md-12">
@@ -149,112 +147,13 @@
 									<div class="card-title">Quản lí phim</div>
 								</div>
 								<div class="card-body">
-									<div class="container-fluid centered-form">
-										<div class="col-md-12">
-											<form th:action="@{/addFirm}" method="POST"
-												enctype="multipart/form-data" th:object="${firm}">
-												<!-- Form fields -->
 
-												<div class="form-row">
-													<div class="form-group col-md-6">
-														<label for="author">Tác giả</label> <input type="text"
-															name="author_firm" class="form-control" id="author"
-															placeholder="Tác giả" th:field="*{author_firm}">
-														<div class="text-danger"
-															th:if="${#fields.hasErrors('author_firm')}"
-															th:errors="*{author_firm}"></div>
-													</div>
-
-													<div class="form-group col-md-6">
-														<label for="name_firm">Tên phim</label> <input type="text"
-															name="name_firm" class="form-control" id="name_firm"
-															placeholder="Tên phim" th:field="*{name_firm}">
-														<div class="text-danger"
-															th:if="${#fields.hasErrors('name_firm')}"
-															th:errors="*{name_firm}"></div>
-													</div>
-												</div>
-
-												<div class="form-row">
-													<div class="form-group col-md-6">
-														<label for="coins_video">Coins Video</label> <input
-															type="number" name="coins_video" class="form-control"
-															id="coins_video" th:field="*{coins_video}" step="1"
-															min="0">
-														<div class="text-danger"
-															th:if="${#fields.hasErrors('coins_video')}"
-															th:errors="*{coins_video}"></div>
-													</div>
-
-													<div class="form-group col-md-6">
-														<label for="firmdate">Ngày phát hành</label> <input
-															type="datetime-local" name="firmdate"
-															class="form-control" id="firmdate" th:field="*{firmdate}">
-														<div class="text-danger"
-															th:if="${#fields.hasErrors('firmdate')}"
-															th:errors="*{firmdate}"></div>
-													</div>
-												</div>
-
-												<div class="form-row">
-													<div class="form-group col-md-6">
-														<label for="img_firm">Chọn ảnh</label> <input type="file"
-															name="img_firm" class="form-control-file" id="img_firm">
-														<div class="text-danger"></div>
-													</div>
-
-													<div class="form-group col-md-6">
-														<label for="link_video_traller">Chọn video trailer</label>
-														<input type="file" name="link_video_traller"
-															class="form-control-file" id="link_video_traller"
-															accept="video/*">
-														<div class="text-danger"></div>
-													</div>
-												</div>
-
-												<div class="form-row">
-													<div class="form-group col-md-6">
-														<label for="total_episodes">Số tập</label> <input
-															type="number" name="total_episodes" class="form-control"
-															id="total_episodes" th:field="*{total_episodes}" step="1"
-															min="0">
-														<div class="text-danger"
-															th:if="${#fields.hasErrors('total_episodes')}"
-															th:errors="*{total_episodes}"></div>
-														<div id="total-episodes-error" class="text-danger"></div>
-													</div>
-
-													<div class="form-group col-md-6">
-														<label for="category">Thể loại phim</label> <select
-															name="category" class="form-control" id="category"
-															th:field="*{category}">
-															<option value="" disabled selected>Chọn thể loại
-																phim</option>
-															<option th:each="category : ${categories}"
-																th:value="${category.id}" th:text="${category.category}"></option>
-														</select>
-														<div class="text-danger"
-															th:if="${#fields.hasErrors('category')}"
-															th:errors="*{category}"></div>
-													</div>
-												</div>
-
-												<!-- Error and success messages -->
-												<div th:if="${errorMessage}" class="alert alert-danger"
-													th:text="${errorMessage}"></div>
-												<div th:if="${session.successMessage}"
-													class="alert alert-success"
-													th:text="${session.successMessage}"></div>
-
-												<!-- Button Section -->
-												<div class="card-action d-flex justify-content-center">
-													<button type="submit" class="btn btn-success mr-2">Hoàn
-														tất</button>
-												</div>
-											</form>
+									<div class="row mb-3">
+										<div class="col-lg-12 text-right">
+											<button class="btn btn-primary" onclick="openAddEventModal()">
+												Thêm</button>
 										</div>
 									</div>
-
 									<div class="table-responsive">
 										<table class="table table-head-bg-primary mt-4">
 											<thead>
@@ -265,7 +164,7 @@
 													<th scope="col">Số tập</th>
 													<th scope="col">Ngày phát hành</th>
 													<th scope="col">Ảnh</th>
-													<th scope="col">Trailer</th>
+													<th scope="col">Video</th>
 													<th scope="col">Thể loại</th>
 													<th scope="col">Hành động</th>
 												</tr>
@@ -292,27 +191,14 @@
 														th:text="${firm.category.category}"></td>
 													<td th:unless="${firm.category != null}">Không có thể
 														loại</td>
-
-													<td>
-														<div class="form-button-action">
-															<a th:href="@{'/edit-phim/' + ${firm.id}}">
-																<button type="button" data-toggle="tooltip"
-																	title="Edit Task"
-																	class="btn btn-link btn-simple-primary">
-																	<i class="la la-edit"></i>
-																</button>
-															</a> <a th:href="@{'/delete-firm/' + ${firm.id}}">
-																<button type="button" data-toggle="tooltip"
-																	title="Remove" class="btn btn-link btn-simple-danger">
-																	<i class="la la-times"></i>
-																</button>
-															</a>
-														</div>
-													</td>
+													<td><a href="/manager-episode"
+														class="btn btn-success btn-sm"><i class="fas fa-plus"></i>
+															Thêm tập</a> <a th:href="@{'/edit-phim/' + ${firm.id}}"
+														class="btn btn-warning btn-sm"><i class="fas fa-edit"></i>
+															Sửa</a> <a th:href="@{'/delete-firm/' + ${firm.id}}"
+														class="btn btn-danger btn-sm"><i
+															class="fas fa-trash-alt"></i> Xóa</a></td>
 												</tr>
-
-
-
 											</tbody>
 										</table>
 									</div>
@@ -327,32 +213,139 @@
 		</div>
 	</div>
 
-	<!-- Modal -->
-	<div class="modal fade" id="modalUpdate" tabindex="-1" role="dialog"
-		aria-labelledby="modalUpdatePro" aria-hidden="true">
+	<div class="modal fade" id="addEventModal" tabindex="-1" role="dialog"
+		aria-labelledby="addEventModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
-				<div class="modal-header bg-primary">
-					<h6 class="modal-title">
-						<i class="la la-frown-o"></i> Under Development
-					</h6>
+				<div class="modal-header">
+					<h5 class="modal-title" id="addEventModalLabel">Thêm phim</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<div class="modal-body text-center">
-					<p>
-						Currently the pro version of the <b>Ready Dashboard</b> Bootstrap
-						is in progress development
-					</p>
-					<p>
-						<b>We'll let you know when it's done</b>
-					</p>
+				<div class="modal-body">
+					<div class="container-fluid centered-form">
+						<div class="col-md-12">
+							<form th:action="@{/addFirm}" method="POST"
+								enctype="multipart/form-data" th:object="${firm}">
+								<!-- Form fields -->
+
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<label for="author">Tác giả</label> <input type="text"
+											name="author_firm" class="form-control" id="author"
+											placeholder="Tác giả" th:field="*{author_firm}">
+										<div class="text-danger"
+											th:if="${#fields.hasErrors('author_firm')}"
+											th:errors="*{author_firm}"></div>
+									</div>
+
+									<div class="form-group col-md-6">
+										<label for="name_firm">Tên phim</label> <input type="text"
+											name="name_firm" class="form-control" id="name_firm"
+											placeholder="Tên phim" th:field="*{name_firm}">
+										<div class="text-danger"
+											th:if="${#fields.hasErrors('name_firm')}"
+											th:errors="*{name_firm}"></div>
+									</div>
+								</div>
+
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<label for="coins_video">Coins Video</label> <input
+											type="number" name="coins_video" class="form-control"
+											id="coins_video" th:field="*{coins_video}" step="1" min="0">
+										<div class="text-danger"
+											th:if="${#fields.hasErrors('coins_video')}"
+											th:errors="*{coins_video}"></div>
+									</div>
+
+									<div class="form-group col-md-6">
+										<label for="firmdate">Ngày phát hành</label> <input
+											type="datetime-local" name="firmdate" class="form-control"
+											id="firmdate" th:field="*{firmdate}">
+										<div class="text-danger"
+											th:if="${#fields.hasErrors('firmdate')}"
+											th:errors="*{firmdate}"></div>
+									</div>
+								</div>
+
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<label for="img_firm">Chọn ảnh</label> <input type="file"
+											name="img_firm" class="form-control-file" id="img_firm">
+										<div class="text-danger"></div>
+									</div>
+
+									<div class="form-group col-md-6">
+										<label for="link_video_traller">Chọn video trailer</label> <input
+											type="file" name="link_video_traller"
+											class="form-control-file" id="link_video_traller"
+											accept="video/*">
+										<div class="text-danger"></div>
+									</div>
+								</div>
+
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<label for="total_episodes">Số tập</label> <input
+											type="number" name="total_episodes" class="form-control"
+											id="total_episodes" th:field="*{total_episodes}" step="1"
+											min="0">
+										<div class="text-danger"
+											th:if="${#fields.hasErrors('total_episodes')}"
+											th:errors="*{total_episodes}"></div>
+										<div id="total-episodes-error" class="text-danger"></div>
+									</div>
+
+									<div class="form-group col-md-6">
+										<label for="category">Thể loại phim</label> <select
+											name="category" class="form-control" id="category"
+											th:field="*{category}">
+											<option value="" disabled selected>Chọn thể loại
+												phim</option>
+											<option th:each="category : ${categories}"
+												th:value="${category.id}" th:text="${category.category}"></option>
+										</select>
+										<div class="text-danger"
+											th:if="${#fields.hasErrors('category')}"
+											th:errors="*{category}"></div>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-group w-100">
+										<label for="eventDescription">Mô tả</label>
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"><i
+													class="fas fa-pencil-alt"></i></span>
+											</div>
+											<textarea name="description" th:field="*{description}"
+												class="form-control" id="description" rows="5"
+												placeholder="Nhập mô tả sự kiện..."></textarea>
+										</div>
+									</div>
+								</div>
+
+								<!-- Error and success messages -->
+								<div th:if="${errorMessage}" class="alert alert-danger"
+									th:text="${errorMessage}"></div>
+								<div th:if="${session.successMessage}"
+									class="alert alert-success" th:text="${session.successMessage}"></div>
+
+								<!-- Button Section -->
+								<div class="card-action d-flex justify-content-center">
+									<button type="submit" class="btn btn-success mr-2">Hoàn
+										tất</button>
+								</div>
+							</form>
+						</div>
+					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">Close</button>
+						data-dismiss="modal">Đóng</button>
 				</div>
 			</div>
 		</div>
@@ -373,6 +366,9 @@
 <script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 <script src="assets/js/ready.min.js"></script>
 <script>
+	function openAddEventModal() {
+		$('#addEventModal').modal('show');
+	}
 	$('#displayNotif')
 			.on(
 					'click',

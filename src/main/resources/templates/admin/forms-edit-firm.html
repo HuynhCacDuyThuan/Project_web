@@ -133,10 +133,7 @@
 							class="la la la-cogs"></i>
 							<p>Quản lí loại phim</p> <span class="badge badge-danger"></span>
 					</a></li>
-					<li class="nav-item"><a href="/manager-episode"> <i
-							class="la la la-cogs"></i>
-							<p>Quản lí tập phim</p> <span class="badge badge-danger"></span>
-					</a></li>
+
 				</ul>
 			</div>
 		</div>
@@ -196,6 +193,20 @@
 											</div>
 										</div>
 
+									</div>
+									<div class="form-row">
+										<div class="form-group w-100">
+											<label for="eventDescription">Mô tả</label>
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text"><i
+														class="fas fa-pencil-alt"></i></span>
+												</div>
+												<textarea name="description" th:field="*{description}"
+													class="form-control" id="description" rows="5"
+													placeholder="Nhập mô tả sự kiện..."></textarea>
+											</div>
+										</div>
 									</div>
 
 									<div class="form-group">
@@ -370,57 +381,64 @@
 	});
 </script>
 <script>
-	$(document).ready(function() {
-		$('#updateVideoForm').on('submit', function(event) {
-			
-			// Clear previous error messages
-			$('#author_error').text('');
-			$('#name_firm_error').text('');
-			$('#tittle_firm_error').text('');
-			$('#coins_video_error').text('');
-			$('#firmdate_error').text('');
-			$('#category_error').text('');
+	$(document).ready(
+			function() {
+				$('#updateVideoForm').on(
+						'submit',
+						function(event) {
 
-			// Validate other required fields
-			var author = $('#author').val();
-			var nameFirm = $('#name_firm').val();
-		
-			var coinsVideo = $('#coins_video').val();
-			var firmDate = $('#firmdate').val();
-			var category = $('#category').val();
+							// Clear previous error messages
+							$('#author_error').text('');
+							$('#name_firm_error').text('');
+							$('#tittle_firm_error').text('');
+							$('#coins_video_error').text('');
+							$('#firmdate_error').text('');
+							$('#category_error').text('');
 
-			var isValid = true; // Flag to track validation
+							// Validate other required fields
+							var author = $('#author').val();
+							var nameFirm = $('#name_firm').val();
 
-			if (!author) {
-				$('#author_error').text('Tác giả không được để trống');
-				isValid = false;
-			}
+							var coinsVideo = $('#coins_video').val();
+							var firmDate = $('#firmdate').val();
+							var category = $('#category').val();
 
-			if (!nameFirm) {
-				$('#name_firm_error').text('Tên phim không được để trống');
-				isValid = false;
-			}
+							var isValid = true; // Flag to track validation
 
-		
-			if (!coinsVideo || coinsVideo <= 0) {
-				$('#coins_video_error').text('Coins Video phải lớn hơn 0');
-				isValid = false;
-			}
+							if (!author) {
+								$('#author_error').text(
+										'Tác giả không được để trống');
+								isValid = false;
+							}
 
-			if (!firmDate) {
-				$('#firmdate_error').text('Ngày phát hành không được để trống');
-				isValid = false;
-			}
+							if (!nameFirm) {
+								$('#name_firm_error').text(
+										'Tên phim không được để trống');
+								isValid = false;
+							}
 
-			if (!category) {
-				$('#category_error').text('Thể loại không được để trống');
-				isValid = false;
-			}
+							if (!coinsVideo || coinsVideo <= 0) {
+								$('#coins_video_error').text(
+										'Coins Video phải lớn hơn 0');
+								isValid = false;
+							}
 
-			// Return true if all validations pass, otherwise prevent form submission
-			return isValid;
-		});
-	});
+							if (!firmDate) {
+								$('#firmdate_error').text(
+										'Ngày phát hành không được để trống');
+								isValid = false;
+							}
+
+							if (!category) {
+								$('#category_error').text(
+										'Thể loại không được để trống');
+								isValid = false;
+							}
+
+							// Return true if all validations pass, otherwise prevent form submission
+							return isValid;
+						});
+			});
 </script>
 
 

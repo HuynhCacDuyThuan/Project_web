@@ -328,7 +328,7 @@ public class AdminController {
 
 	@PostMapping("/update-video")
 	public String updateVideo(HttpSession session, @ModelAttribute Firm firm, BindingResult result,
-			@RequestParam("img_firm") MultipartFile imgFile, 
+			@RequestParam("img_firm") MultipartFile imgFile,
 			@RequestParam("link_video_traller") MultipartFile videoTraller, Model model) {
 
 		Long id = (Long) session.getAttribute("id");
@@ -348,18 +348,16 @@ public class AdminController {
 
 		Firm f = optional.get();
 
-		
-
-		
 		// Cập nhật thông tin phim
 		f.setFirmdate(firm.getFirmdate());
 
 		f.setAuthor_firm(firm.getAuthor_firm());
 		f.setCoins_video(firm.getCoins_video());
-	
+
 		f.setCategory(firm.getCategory());
 
 		f.setTotal_episodes(firm.getTotal_episodes());
+		f.setDescription(firm.getDescription());
 
 		// Xử lý file ảnh, video và trailer
 		try {

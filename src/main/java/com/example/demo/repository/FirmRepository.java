@@ -41,11 +41,11 @@ public interface FirmRepository extends JpaRepository<Firm, Long> {
 			+ "(SELECT COUNT(e) FROM Episode e WHERE e.firm.id = f.id and e.status =true), "
 			+ "f.coins_video, f.total_episodes, f.img_firm, f.name_firm, f.firmdate, "
 			+ "f.link_video_traller, MIN(e.link_video), MIN(e.name_episode), " // Lấy tập đầu tiên và video của nó
-			+ "f.author_firm, c.category, e.status) " + "FROM Firm f " + "LEFT JOIN Episode e ON e.firm.id = f.id "
-			+ "JOIN Category c ON c.id = f.category.id "
+			+ "f.author_firm, c.category, e.status, f.description) " + "FROM Firm f "
+			+ "LEFT JOIN Episode e ON e.firm.id = f.id " + "JOIN Category c ON c.id = f.category.id "
 			+ "WHERE f.category = :category AND f.status = true and e.status = true "
 			+ "GROUP BY f.id, f.coins_video, f.total_episodes, f.img_firm, f.name_firm, f.firmdate, "
-			+ "f.link_video_traller, f.author_firm, c.category, e.status")
+			+ "f.link_video_traller, f.author_firm, c.category, e.status,f.description")
 	List<FirmDto> findByCategory(@Param("category") Category category);
 
 	@Query("SELECT COUNT(f) FROM Firm f WHERE LOWER(f.name_firm) = LOWER(:name_firm)")

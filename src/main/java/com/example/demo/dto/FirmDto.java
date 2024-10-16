@@ -16,6 +16,7 @@ public class FirmDto {
 	private String author_firm;
 	private String category;
 	private Boolean status;
+	private String description;
 
 	public FirmDto() {
 		super();
@@ -36,8 +37,7 @@ public class FirmDto {
 
 	public FirmDto(Long id, Long episodeCount, Double coins, Integer total_episodes, String img_link, String name_firm,
 			LocalDateTime firmdate, String link_video_traller, String link_video, String name_episode,
-			String author_firm, String category, Boolean status) {
-		super();
+			String author_firm, String category, Boolean status, String description) {
 		this.id = id;
 		this.episodeCount = episodeCount;
 		this.coins = coins;
@@ -51,6 +51,7 @@ public class FirmDto {
 		this.author_firm = author_firm;
 		this.category = category;
 		this.status = status;
+		this.description = description;
 	}
 
 	public Boolean isStatus() {
@@ -155,6 +156,18 @@ public class FirmDto {
 
 	public void setLink_video_traller(String link_video_traller) {
 		this.link_video_traller = link_video_traller;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Boolean getStatus() {
+		return status;
 	}
 
 }

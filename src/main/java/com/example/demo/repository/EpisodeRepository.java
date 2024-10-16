@@ -23,12 +23,17 @@ public interface EpisodeRepository extends JpaRepository<Episode, Long> {
 	List<FirmDto> getEpisodesByFirm();
 
 	@Query("SELECT new com.example.demo.dto.FirmDto(f.id, "
-			+ "(SELECT COUNT(e) FROM Episode e WHERE e.firm.id = f.id and e.status = true), "
-			+ "f.coins_video, f.total_episodes, f.img_firm, f.name_firm, f.firmdate, "
-			+ "f.link_video_traller, e.link_video, e.name_episode, f.author_firm, c.category , e.status) "
-			+ "FROM Firm f " + "LEFT JOIN Episode e ON e.firm.id = f.id " + "JOIN Category c ON c.id = f.category.id "
-			+ "WHERE f.id = :firm_id AND f.status = true")
-	List<FirmDto> getEpisodesByFirm(@Param("firm_id") Long firm_id);
+		    + "(SELECT COUNT(e) FROM Episode e WHERE e.firm.id = f.id AND e.status = true), "
+		    + "f.coins_video, f.total_episodes, f.img_firm, f.name_firm, f.firmdate, "
+		    + "f.link_video_traller, e.link_video, e.name_episode, f.author_firm, c.category , e.status, f.description) "
+		    + "FROM Firm f "
+		    + "LEFT JOIN Episode e ON e.firm.id = f.id "
+		    + "JOIN Category c ON c.id = f.category.id "
+		    + "WHERE f.id = :firm_id AND f.status = true "
+		    + "GROUP BY f.id, f.coins_video, f.total_episodes, f.img_firm, f.name_firm, f.firmdate, "
+		    + "f.link_video_traller, e.link_video, e.name_episode, f.author_firm, c.category , e.status, f.description")
+		List<FirmDto> getEpisodesByFirm(@Param("firm_id") Long firm_id);
+
 
 	List<Episode> findByFirm(Firm firm);
 
